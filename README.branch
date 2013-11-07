@@ -1,0 +1,13 @@
+# Status
+
+Unmerged fix for EZP-21324.
+
+Fixed the issue by creating eZImageFile references in XML during store
+of the ezimage attribute.
+
+Refactored a good part of eZImageFile, getting rid of the extra
+$contentObjectAttribute optional parameter in methods, and refactoring
+alias removal in smaller methods.
+
+Replaced by #825, that fixed the issue by preventing any file from being
+removed when no eZImageFile reference exists.
