@@ -33,9 +33,10 @@ class eZURLOperator
                             $httpName = 'ezhttp',
                             $iniName = 'ezini',
                             $iniNameHasVariable = 'ezini_hasvariable',
-                            $httpNameHasVariable = 'ezhttp_hasvariable' )
+                            $httpNameHasVariable = 'ezhttp_hasvariable',
+                            $serverUriName = 'ezserveruri' )
     {
-        $this->Operators = array( $url_name, $urlroot_name, $ezsys_name, $design_name, $image_name, $ext_name, $httpName, $iniName, $iniNameHasVariable, $httpNameHasVariable );
+        $this->Operators = array( $url_name, $urlroot_name, $ezsys_name, $design_name, $image_name, $ext_name, $httpName, $iniName, $iniNameHasVariable, $httpNameHasVariable, $serverUriName );
         $this->URLName = $url_name;
         $this->URLRootName = $urlroot_name;
         $this->SysName = $ezsys_name;
@@ -46,6 +47,7 @@ class eZURLOperator
         $this->ININame = $iniName;
         $this->ININameHasVariable = $iniNameHasVariable;
         $this->HTTPNameHasVariable = $httpNameHasVariable;
+        $this->ServerUriName = $serverUriName;
         $this->Sys = eZSys::instance();
     }
 
@@ -922,6 +924,12 @@ CODEPIECE;
             {
                 $operatorValue = $this->eZDesign( $tpl, $operatorValue, $operatorName );
             } break;
+
+            case $this->ServerUriName:
+            {
+                $operatorValue = eZClusterFileHandler::instance()->applyServerUri( trim( $operatorValue, '"\'' ) );
+                $this->applyQuotes( $operatorValue, $namedParameters['quote_val'] );
+            }
         }
         $quote = "\"";
         $val = $namedParameters['quote_val'];
@@ -1004,7 +1012,7 @@ CODEPIECE;
     }
 
     public $Operators;
-    public $URLName, $URLRootName, $DesignName, $ImageName;
+    public $URLName, $URLRootName, $DesignName, $ImageName, $ServerUriName;
     public $Sys;
 }
 
