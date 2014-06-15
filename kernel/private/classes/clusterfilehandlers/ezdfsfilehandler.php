@@ -1447,6 +1447,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBase
         return true;
     }
 
+    public function applyServerUri( $filePath )
+    {
+        return self::$dbbackend->applyServerUri( $filePath );
+    }
+
+
     /**
      * Database backend class
      * Provides metadata operations
