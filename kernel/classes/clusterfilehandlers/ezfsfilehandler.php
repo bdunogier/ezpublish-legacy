@@ -995,6 +995,13 @@ class eZFSFileHandler implements eZClusterFileHandlerInterface
         return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
     }
 
+    /**
+     * No transformation is required since files are served from the same host
+     */
+    public function applyServerUri( $filePath )
+    {
+        return $filePath;
+    }
     public $metaData = null;
     public $filePath;
 }
