@@ -595,6 +595,18 @@ class eZURI
      */
     public static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = null )
     {
+        // When using ezroot, immediately stop if the linked element is external
+        if ( $ignoreIndexDir )
+        {
+            // The initial / needs to be removed as it is not expected by the cluster handler
+            $modifiedHref = eZClusterFileHandler::instance()->applyServerUri( ltrim( $href, '/' ) );
+            if ( strstr( $modifiedHref, '://' ) !== false )
+            {
+                $href = $modifiedHref;
+                return true;
+            }
+        }
+
         if ( $serverURL === null )
         {
             $serverURL = self::$transformURIMode;
